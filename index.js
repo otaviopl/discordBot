@@ -1,15 +1,18 @@
 import { Client, GatewayIntentBits } from "discord.js";
 import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const client = new Client({
   intents: [
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.Guilds
-  ]
-});
+  ]});
 
-const N8N_WEBHOOK_URL = "https://your-n8n-instance.com/webhook/musicNewCommand";
+const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL;
+const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 
 client.once("ready", () => {
   console.log("Bot está online!");
@@ -18,7 +21,6 @@ client.once("ready", () => {
 client.on("messageCreate", async (message) => {
   if (message.content === "!musicNew") {
     try {
-      // Envia a solicitação ao Webhook do n8n
       await axios.post(N8N_WEBHOOK_URL, {
         user: message.author.username,
         command: "!musicNew"
@@ -31,5 +33,4 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-// Substitua pelo token do seu bot
-client.login("YOUR_DISCORD_BOT_TOKEN");
+client.login(DISCORD_BOT_TOKEN);
