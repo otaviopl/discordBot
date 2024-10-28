@@ -9,7 +9,7 @@ const client = new Client({
   ]
 });
 
-const N8N_WEBHOOK_URL = "https://your-n8n-instance.com/webhook/musicNewCommand"; // substitua com o URL do seu Webhook
+const N8N_WEBHOOK_URL = "https://your-n8n-instance.com/webhook/musicNewCommand";
 
 client.once("ready", () => {
   console.log("Bot está online!");
