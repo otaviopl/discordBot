@@ -1,35 +1,23 @@
-import { Client, GatewayIntentBits } from "discord.js";
-import axios from "axios";
+# Discord Bot com Integração n8n e Spotify 🎵
 
-const client = new Client({
-  intents: [
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-    GatewayIntentBits.Guilds
-  ]
-});
+Este projeto é um bot para Discord que interage com o serviço de automação [n8n](https://n8n.io/) e a API do Spotify. O bot envia uma notificação via webhook para o n8n, que processa e armazena dados, e depois realiza buscas no Spotify, retornando informações em formato de mensagem no Discord.
 
-const N8N_WEBHOOK_URL = "https://your-n8n-instance.com/webhook/musicNewCommand";
+## Índice
+- [Funcionalidades](#funcionalidades)
+- [Pré-requisitos](#pré-requisitos)
+- [Instalação](#instalação)
+- [Configuração](#configuração)
+- [Uso](#uso)
+- [Contribuições](#contribuições)
+- [Licença](#licença)
 
-client.once("ready", () => {
-  console.log("Bot está online!");
-});
+## Funcionalidades
+- Envio de Webhook para o n8n com dados solicitados pelo usuário no Discord.
+- Processamento dos dados no n8n e retorno da resposta via API do Spotify.
+- Retorno das informações buscadas no Spotify em formato de mensagem no Discord.
 
-client.on("messageCreate", async (message) => {
-  if (message.content === "!musicNew") {
-    try {
-      // Envia a solicitação ao Webhook do n8n
-      await axios.post(N8N_WEBHOOK_URL, {
-        user: message.author.username,
-        command: "!musicNew"
-      });
-      await message.reply("Verificando novos lançamentos de artistas que você segue!");
-    } catch (error) {
-      console.error("Erro ao enviar solicitação para n8n:", error);
-      await message.reply("Houve um erro ao verificar novos lançamentos.");
-    }
-  }
-});
-
-// Substitua pelo token do seu bot
-client.login("YOUR_DISCORD_BOT_TOKEN");
+## Pré-requisitos
+- Node.js e npm instalados
+- Um servidor no Discord e permissões para adicionar bots
+- Uma conta no [Spotify for Developers](https://developer.spotify.com/) para obter as chaves de API
+- Configuração de um fluxo no [n8n](https://n8n.io/) para receber o webhook e processar os dados
